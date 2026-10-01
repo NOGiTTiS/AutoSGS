@@ -13,6 +13,19 @@
   <img src="https://img.shields.io/badge/License-MIT-orange.svg" alt="License">
 </p>
 
+<p align="center">
+  <a href="https://github.com/NOGiTTiS/AutoSGS/releases/latest">
+    <img src="https://img.shields.io/badge/Download-AutoSGS%20Latest%20Release-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="Download AutoSGS">
+  </a>
+</p>
+
+### 📥 ดาวน์โหลดโปรแกรมพร้อมใช้งาน (Latest Release)
+
+| ระบบปฏิบัติการ | ไฟล์ดาวน์โหลด | รูปแบบ | คำแนะนำการใช้งาน |
+| :--- | :--- | :--- | :--- |
+| **Windows 10 / 11** | [📥 **AutoSGS.exe**](https://github.com/NOGiTTiS/AutoSGS/releases/latest) | Standalone Portable (.exe) | ดับเบิลคลิกเปิดใช้งานได้ทันที ไม่ต้องติดตั้ง |
+| **macOS** | [📥 **AutoSGS-macOS.zip**](https://github.com/NOGiTTiS/AutoSGS/releases/latest) | App Bundle (.zip) | แตกไฟล์ ย้ายเข้า Applications และเปิดสิทธิ์ Accessibility |
+
 ---
 
 ## 💡 จุดเด่นของ AutoSGS (Key Features)
