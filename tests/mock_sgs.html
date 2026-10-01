@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>AutoSGS Mock Grading Form (จำลอง 3 โหมด)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Prompt', 'Segoe UI', Tahoma, sans-serif; padding: 24px; background-color: #f0f3f6; color: #2c3e50; }
+    .header-card { background: white; padding: 20px 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; max-width: 1100px; }
+    h2 { margin: 0 0 10px 0; color: #1a5276; font-size: 22px; }
+    p { margin: 6px 0; color: #555; font-size: 14px; line-height: 1.6; }
+    
+    /* Navigation Mode Tabs */
+    .mode-nav { display: flex; gap: 8px; margin: 16px 0 14px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+    .mode-btn { font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 8px; border: 1.5px solid #cbd5e1; background: #fff; color: #475569; cursor: pointer; transition: all 0.2s; }
+    .mode-btn:hover { background: #f1f5f9; color: #1e293b; }
+    .mode-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; box-shadow: 0 2px 6px rgba(37,99,235,0.25); }
+
+    .toolbar { display: flex; gap: 10px; margin: 12px 0 6px 0; flex-wrap: wrap; }
+    button.btn-act { font-family: 'Prompt', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; transition: all 0.2s; }
+    .btn-sample { background-color: #2980b9; color: white; }
+    .btn-sample:hover { background-color: #1f618d; }
+    .btn-sample-blank { background-color: #d35400; color: white; }
+    .btn-sample-blank:hover { background-color: #a04000; }
+    .btn-clear { background-color: #c0392b; color: white; margin-left: auto; }
+    .btn-clear:hover { background-color: #962d22; }
+
+    .stat-bar { background: #e8f4f8; padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #1f618d; margin-bottom: 16px; max-width: 1100px; display: flex; justify-content: space-between; }
+    .mode-badge { background: #3b82f6; color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+
+    table { border-collapse: collapse; width: 100%; max-width: 1100px; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-radius: 10px; overflow: hidden; font-size: 13px; }
+    th, td { border: 1px solid #e1e8ed; padding: 6px 8px; text-align: center; }
+    th { background-color: #2c3e50; color: white; font-weight: 600; font-size: 13px; }
+    th.skip-th { background-color: #64748b; font-size: 12px; color: #e2e8f0; }
+    tr:nth-child(even) { background-color: #f8fafc; }
+    tr:hover { background-color: #eaf2f8; }
+
+    input[type="text"] { width: 55px; padding: 6px 4px; text-align: center; border: 1.5px solid #cbd5e1; border-radius: 5px; font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 600; transition: all 0.15s; }
+    input[type="text"]:focus { outline: none; border-color: #27ae60; background-color: #e8f8f5; box-shadow: 0 0 6px rgba(39,174,96,0.4); transform: scale(1.08); z-index: 5; position: relative; }
+    input.filled { background-color: #eafaf1; border-color: #82e0aa; color: #145a32; }
+
+    /* Skipped fields in SGS (Summary / Action buttons) */
+    .skipped-input { width: 55px; padding: 6px 4px; text-align: center; border: 1px dashed #94a3b8; border-radius: 5px; background: #f1f5f9; color: #64748b; font-size: 12px; }
+    .skipped-input:focus { outline: none; border-color: #f59e0b; background-color: #fef3c7; }
+
+    .toast { position: fixed; top: 20px; right: 20px; background: #27ae60; color: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; font-weight: 500; z-index: 1000; }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="toastMsg">คัดลอกข้อมูลลงคลิปบอร์ดแล้ว!</div>
+
+  <div class="header-card">
+    <h2>📝 ฟอร์มจำลองระบบ SGS สำหรับทดสอบ 3 โหมด</h2>
+    <p>💡 <b>คำแนะนำ:</b> เลือกโหมดที่ต้องการทดสอบด้านล่าง $\rightarrow$ กดปุ่มคัดลอกข้อมูล $\rightarrow$ สลับไปที่โปรแกรม <b>AutoSGS</b> เลือกโหมดเดียวกัน $\rightarrow$ คลิกช่องแรกแล้วกด <b>F2</b></p>
+
+    <!-- Mode Selector Tabs -->
+    <div class="mode-nav">
+      <button class="mode-btn active" id="nav_scores" onclick="switchMode('scores')">📊 1. ผลการเรียน (3 ช่อง)</button>
+      <button class="mode-btn" id="nav_characteristics" onclick="switchMode('characteristics')">⭐ 2. คุณลักษณะอันพึงประสงค์ (8 ช่อง + ข้าม 4 Tab)</button>
+      <button class="mode-btn" id="nav_reading_analysis" onclick="switchMode('reading_analysis')">📖 3. การอ่าน คิดวิเคราะห์ฯ (6 ช่อง + ข้าม 2 Tab)</button>
+    </div>
+
+    <!-- Mode description & Toolbar -->
+    <div id="modeDescription" style="font-size: 13px; color: #475569; margin-bottom: 8px;">
+      โหมดคะแนนรายวิชาทั่วไป: ทุกช่องพิมพ์คะแนน + กด Tab 1 ครั้ง ข้ามไปคนถัดไปทันที
+    </div>
+
+    <div class="toolbar">
+      <button class="btn-act btn-sample" id="btnSampleMain" onclick="copyCurrentSample()">📋 คัดลอกข้อมูลตัวอย่าง (40 คน)</button>
+      <button class="btn-act btn-sample-blank" id="btnSampleBlank" onclick="copyCurrentWithBlanks()">📋 คัดลอกแบบมีช่องว่าง (เว้นเด็กขาด)</button>
+      <button class="btn-act btn-save" id="btnSaveSGS" onclick="simulateSaveSGS()" style="background-color: #059669; color: white;">💾 บันทึกข้อมูลใน SGS</button>
+      <button class="btn-act btn-clear" onclick="clearAll()">🗑 ล้างค่าทั้งหมด</button>
+    </div>
+  </div>
+
+  <div class="stat-bar">
+    <span id="scoreProgress">คะแนนที่กรอกแล้ว: 0 ช่อง</span>
+    <span id="targetFocus">คลิกที่ช่องแรก (เลขที่ 1) เพื่อเริ่ม</span>
+    <span class="mode-badge" id="currentModeBadge">โหมด: ผลการเรียน</span>
+  </div>
+
+  <table id="mainTable">
+    <thead id="tableHead">
+      <!-- Generated dynamically based on mode -->
+    </thead>
+    <tbody id="student-table">
+      <!-- 40 Students generated dynamically -->
+    </tbody>
+  </table>
+
+  <script>
+    const firstNames = [
+      "กิตติศักดิ์", "กัญญารัตน์", "ชัยวัฒน์", "ณัฐธิดา", "ธีรภัทร", "นภัสสร", "ปวริศ", "พรรณพร", "ภัทรพล", "วรัญญา",
+      "กิตติพงษ์", "จิรภา", "ชญานนท์", "ดวงกมล", "ธนกฤต", "นนทพัทธ์", "ปรียาภรณ์", "พีรพัฒน์", "เมธาสิทธิ์", "รินรดา",
+      "กฤษฎา", "ขวัญข้าว", "จารุวัฒน์", "ฐิติมา", "ณภัทร", "ธนพล", "เบญจมาศ", "ปัณณธร", "พงศกร", "ศิรภัสสร",
+      "กมลวรรณ", "เขมทัต", "ชนิตา", "โชคชัย", "ทิพวรรณ", "นรเสฏฐ์", "พรทิพย์", "ภูมิพัฒน์", "รภัสสิทธิ์", "อภิสิทธิ์"
+    ];
+
+    const lastNames = [
+      "สมบูรณ์", "สดใส", "รัตนชัย", "ปัญญา", "ชูเกียรติ", "วงศ์ดี", "แก้วใส", "สุขเกษม", "เจริญผล", "มั่นคง",
+      "พงษ์พาณิชย์", "บุญมี", "จันทร์โอชา", "รัตนโกสินทร์", "ศิริชัย", "มีทรัพย์", "สุขสันต์", "สุวรรณศรี", "ทองดี", "วัฒนา",
+      "ยิ่งเจริญ", "ทวีโชค", "บุญเจริญ", "เลิศวิจิตร", "จงรักดี", "แสงอรุณ", "พงษ์สวัสดิ์", "สิทธิโชค", "ใจดี", "เจริญวงศ์",
+      "มีชัย", "ยอดเยี่ยม", "งามเลิศ", "สว่างดี", "รุ่งเรือง", "เกียรติชัย", "ประสิทธิ์", "โชติช่วง", "กมลสิทธิ์", "ชลธี"
+    ];
+
+    let currentMode = "scores";
+
+    const MODES = {
+      scores: {
+        name: "ผลการเรียน",
+        badge: "โหมด: ผลการเรียน (3 ช่อง - 0.10s)",
+        desc: "📌 <b>โหมดผลการเรียน:</b> 3 ช่องคะแนนต่อคน (พิมพ์+Tab) ข้ามไปคนถัดไปทันที (⏱ แนะนำความเร็ว 0.10s)",
+        scoreCols: 3,
+        skipCols: 0,
+        headers: ["เก็บ 1", "เก็บ 2", "กลางภาค"],
+        skipHeaders: [],
+      },
+      characteristics: {
+        name: "คุณลักษณะอันพึงประสงค์",
+        badge: "โหมด: คุณลักษณะฯ (8 ช่อง + ข้าม 4 Tab ⚡ 0.02s)",
+        desc: "📌 <b>โหมดคุณลักษณะอันพึงประสงค์:</b> 8 ตัวชี้วัดต่อคน (พิมพ์+Tab) + <b>ระบบกด Tab เพิ่มเติมอีก 4 ครั้งท้ายแถว</b> เพื่อข้ามช่องสรุปผล (⚡ <b>ความเร็วสูงสุด 0.02s อัตโนมัติ</b> บันทึกครั้งเดียวท้ายฟอร์ม)",
+        scoreCols: 8,
+        skipCols: 4,
+        headers: ["ข้อ 1", "ข้อ 2", "ข้อ 3", "ข้อ 4", "ข้อ 5", "ข้อ 6", "ข้อ 7", "ข้อ 8"],
+        skipHeaders: ["รวม (ข้าม 1)", "ฐานนิยม (ข้าม 2)", "ผล (ข้าม 3)", "แก้ไข (ข้าม 4)"],
+      },
+      reading_analysis: {
+        name: "การอ่าน คิดวิเคราะห์และเขียน",
+        badge: "โหมด: การอ่านฯ (6 ช่อง + ข้าม 2 Tab ⚡ 0.02s)",
+        desc: "📌 <b>โหมดการอ่าน คิดวิเคราะห์และเขียน:</b> 6 ตัวชี้วัดต่อคน (พิมพ์+Tab) + <b>ระบบกด Tab เพิ่มเติมอีก 2 ครั้งท้ายแถว</b> เพื่อข้ามช่องสรุปผล (⚡ <b>ความเร็วสูงสุด 0.02s อัตโนมัติ</b> บันทึกครั้งเดียวท้ายฟอร์ม)",
+        scoreCols: 6,
+        skipCols: 2,
+        headers: ["ข้อ 1", "ข้อ 2", "ข้อ 3", "ข้อ 4", "ข้อ 5", "ข้อ 6"],
+        skipHeaders: ["ผลประเมิน (ข้าม 1)", "ระดับ (ข้าม 2)"],
+      }
+    };
+
+    function switchMode(modeKey) {
+      currentMode = modeKey;
+      document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`nav_${modeKey}`).classList.add('active');
+
+      const modeInfo = MODES[modeKey];
+      document.getElementById('currentModeBadge').innerText = modeInfo.badge;
+      document.getElementById('modeDescription').innerHTML = modeInfo.desc;
+
+      renderTable();
+    }
+
+    function renderTable() {
+      const mode = MODES[currentMode];
+      const thead = document.getElementById('tableHead');
+      const tbody = document.getElementById('student-table');
+
+      // 1. Render Header
+      let trHead = `<tr><th style="width: 50px;">เลขที่</th><th style="width: 180px; text-align: left; padding-left: 14px;">ชื่อ - นามสกุล</th>`;
+      for (const h of mode.headers) {
+        trHead += `<th>${h}</th>`;
+      }
+      for (const sh of mode.skipHeaders) {
+        trHead += `<th class="skip-th">${sh}</th>`;
+      }
+      trHead += `</tr>`;
+      thead.innerHTML = trHead;
+
+      // 2. Render 40 Students
+      tbody.innerHTML = "";
+      const totalColStride = mode.scoreCols + mode.skipCols;
+
+      for (let i = 0; i < 40; i++) {
+        const tr = document.createElement('tr');
+        const prefix = (i % 2 === 0) ? "นาย" : "นางสาว";
+        const fullName = `${prefix} ${firstNames[i]} ${lastNames[i]}`;
+
+        let rowHtml = `<td><b>${i + 1}</b></td><td style="text-align: left; padding-left: 14px;">${fullName}</td>`;
+
+        // Score inputs
+        for (let c = 0; c < mode.scoreCols; c++) {
+          const tabIndex = i * totalColStride + c + 1;
+          rowHtml += `<td><input type="text" id="cell_${tabIndex}" tabindex="${tabIndex}" oninput="onCellInput(this)"></td>`;
+        }
+
+        // Skipped fields (have tabindex so pressing Tab traverses them)
+        for (let s = 0; s < mode.skipCols; s++) {
+          const tabIndex = i * totalColStride + mode.scoreCols + s + 1;
+          rowHtml += `<td><input type="text" class="skipped-input" tabindex="${tabIndex}" value="-" readonly title="ช่องสรุปผลระบบ SGS (ข้ามด้วย Tab)"></td>`;
+        }
+
+        tr.innerHTML = rowHtml;
+        tbody.appendChild(tr);
+      }
+
+      updateStats();
+    }
+
+    function onCellInput(el) {
+      if (el.value.trim() !== '') {
+        el.classList.add('filled');
+      } else {
+        el.classList.remove('filled');
+      }
+      updateStats();
+    }
+
+    function updateStats() {
+      const inputs = document.querySelectorAll('input[type="text"]:not(.skipped-input)');
+      let filled = 0;
+      inputs.forEach(inp => {
+        if (inp.value.trim() !== '') filled++;
+      });
+      const pct = Math.round((filled / inputs.length) * 100);
+      document.getElementById('scoreProgress').innerText = `คะแนนที่กรอกแล้ว: ${filled} / ${inputs.length} ช่อง (${pct}%)`;
+    }
+
+    function clearAll() {
+      document.querySelectorAll('input[type="text"]:not(.skipped-input)').forEach(input => {
+        input.value = '';
+        input.classList.remove('filled');
+      });
+      updateStats();
+      const first = document.querySelector('input[tabindex="1"]');
+      if (first) first.focus();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMsg');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+
+    function copyToClipboard(tsv) {
+      navigator.clipboard.writeText(tsv).then(() => {
+        showToast("📋 คัดลอกข้อมูลลงคลิปบอร์ดแล้ว! สลับไปดูใน AutoSGS ได้เลย");
+      });
+    }
+
+    function simulateSaveSGS() {
+      const mode = MODES[currentMode];
+      showToast(`✅ บันทึกข้อมูล ${mode.name} ลงระบบ SGS เรียบร้อยแล้ว!`);
+    }
+
+    function copyCurrentSample() {
+      let tsv = "";
+      if (currentMode === "scores") {
+        for (let i = 0; i < 40; i++) {
+          const s1 = 15 + (i % 6);
+          const s2 = 14 + ((i + 2) % 7);
+          const s3 = 16 + ((i + 1) % 5);
+          tsv += `${s1}\t${s2}\t${s3}\r\n`;
+        }
+      } else if (currentMode === "characteristics") {
+        // 8 columns, scores 2 or 3
+        for (let i = 0; i < 40; i++) {
+          const rowScores = [];
+          for (let c = 0; c < 8; c++) {
+            rowScores.push((i + c) % 5 === 0 ? "2" : "3");
+          }
+          tsv += rowScores.join("\t") + "\r\n";
+        }
+      } else if (currentMode === "reading_analysis") {
+        // 6 columns, scores 2 or 3
+        for (let i = 0; i < 40; i++) {
+          const rowScores = [];
+          for (let c = 0; c < 6; c++) {
+            rowScores.push((i + c) % 4 === 0 ? "2" : "3");
+          }
+          tsv += rowScores.join("\t") + "\r\n";
+        }
+      }
+      copyToClipboard(tsv);
+    }
+
+    function copyCurrentWithBlanks() {
+      let tsv = "";
+      if (currentMode === "scores") {
+        for (let i = 0; i < 40; i++) {
+          const s1 = (i === 4 || i === 12 || i === 25) ? "" : (15 + (i % 6));
+          const s2 = (i === 8 || i === 19 || i === 33) ? "" : (16 + (i % 5));
+          const s3 = (i === 12 || i === 28) ? "" : (17 + (i % 4));
+          tsv += `${s1}\t${s2}\t${s3}\r\n`;
+        }
+      } else if (currentMode === "characteristics") {
+        for (let i = 0; i < 40; i++) {
+          const rowScores = [];
+          for (let c = 0; c < 8; c++) {
+            if ((i === 5 || i === 18) && c >= 2 && c <= 4) {
+              rowScores.push(""); // Absent student
+            } else {
+              rowScores.push((i + c) % 5 === 0 ? "2" : "3");
+            }
+          }
+          tsv += rowScores.join("\t") + "\r\n";
+        }
+      } else if (currentMode === "reading_analysis") {
+        for (let i = 0; i < 40; i++) {
+          const rowScores = [];
+          for (let c = 0; c < 6; c++) {
+            if ((i === 7 || i === 22) && c >= 1 && c <= 3) {
+              rowScores.push(""); // Absent student
+            } else {
+              rowScores.push((i + c) % 4 === 0 ? "2" : "3");
+            }
+          }
+          tsv += rowScores.join("\t") + "\r\n";
+        }
+      }
+      copyToClipboard(tsv);
+    }
+
+    // Initialize table on page load
+    renderTable();
+  </script>
+</body>
+</html>
