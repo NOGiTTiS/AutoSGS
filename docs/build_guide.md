@@ -101,7 +101,7 @@ chmod +x packaging/build_mac.sh
 ```bash
 pyinstaller --noconfirm --onedir --windowed \
     --name="AutoSGS" \
-    --icon="assets/icon.png" \
+    --icon="assets/icon.icns" \
     --add-data="assets/fonts:assets/fonts" \
     --collect-all="customtkinter" \
     --hidden-import="pynput.keyboard._darwin" \

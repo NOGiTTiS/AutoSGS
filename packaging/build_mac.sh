@@ -8,10 +8,15 @@ echo "========================================================"
 # Clean previous builds
 rm -rf build dist
 
+ICON_ARG=""
+if [ -f "assets/icon.icns" ]; then
+    ICON_ARG="--icon=assets/icon.icns"
+fi
+
 # PyInstaller for macOS
 pyinstaller --noconfirm --onedir --windowed \
     --name="AutoSGS" \
-    --icon="assets/icon.png" \
+    $ICON_ARG \
     --add-data="assets/fonts:assets/fonts" \
     --collect-all="customtkinter" \
     --hidden-import="pynput.keyboard._darwin" \
