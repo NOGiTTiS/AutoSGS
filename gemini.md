@@ -67,6 +67,11 @@ flowchart TD
 ```text
 D:\TUNorth\apps\sgs/
 │
+├── .github/                       # GitHub Actions Workflows
+│   └── workflows/
+│       └── build_release.yml      # CI/CD Build & Publish Release อัตโนมัติ
+├── .gitignore                     # กำหนดไฟล์ที่ไม่ติดตามใน Git (build, dist, cache)
+├── README.md                      # เอกสารแนะนำโปรเจกต์และลิงก์ดาวน์โหลด
 ├── gemini.md                      # [THIS FILE] สมองและบริบทของโปรเจกต์
 ├── requirements.txt               # รายการ Dependencies
 ├── test_phase1_manual.py          # สคริปต์ทดสอบ Phase 1 แบบ Interactive
@@ -102,8 +107,11 @@ D:\TUNorth\apps\sgs/
 │   ├── user_guide.md              # คู่มือการใช้งานสำหรับครูผู้สอน
 │   └── build_guide.md             # คู่มือขั้นตอนการ Build และคอมไพล์โปรแกรม
 │
-├── assets/                        # ไอคอนและไฟล์มีเดีย
-│   └── README.md
+├── assets/                        # ไอคอนและไฟล์มีเดีย (ico, png, icns, fonts)
+│   ├── icon.ico                   # ไอคอน Windows (.ico)
+│   ├── icon.png                   # ไอคอนต้นฉบับ (.png)
+│   ├── icon.icns                  # ไอคอน macOS (.icns)
+│   └── fonts/                     # ฟอนต์ Prompt (Regular, SemiBold, Bold)
 │
 └── packaging/                     # สคริปต์สำหรับ Build ไฟล์แจกจ่าย (Phase 4)
     ├── build_windows.bat
@@ -122,6 +130,8 @@ D:\TUNorth\apps\sgs/
 | **รันโปรแกรม AutoSGS (เมื่อมี UI)** | `python main.py` |
 | **Build ไฟล์ Portable .exe (Windows)** | `packaging\build_windows.bat` |
 | **Build ไฟล์ Standalone .app (macOS)** | `./packaging/build_mac.sh` |
+| **Push โค้ดขึ้น GitHub** | `git push origin main` |
+| **ปล่อย Release ใหม่ผ่าน Git Tag** | `git tag vX.Y.Z && git push origin vX.Y.Z` |
 
 ---
 
@@ -152,6 +162,8 @@ D:\TUNorth\apps\sgs/
   - [x] PyInstaller สคริปต์ทำ Portable `.exe` แบบ Single File (Windows)
   - [x] เพิ่มระบบรองรับ 3 โหมดการกรอกคะแนน (ผลการเรียน, คุณลักษณะฯ, การอ่านฯ)
   - [x] สคริปต์สำหรับ macOS พร้อมคำแนะนำ Accessibility
-  - [x] GitHub Actions Workflow สร้าง Release อัตโนมัติ
   - [x] จัดทำคู่มือผู้ใช้สำหรับครู (User Guide) และ README.md
   - [x] จัดทำคู่มือขั้นตอนการ Build และคอมไพล์โปรแกรม (Build Guide)
+  - [x] ซิงค์ Source Code ขึ้น GitHub Repository (`https://github.com/NOGiTTiS/AutoSGS`) พร้อม `.gitignore`
+  - [x] จัดทำไอคอน macOS `assets/icon.icns` รองรับ PyInstaller ข้ามแพลตฟอร์ม
+  - [x] GitHub Actions CI/CD สร้างและเผยแพร่ GitHub Release `v1.0.0` อัตโนมัติสำเร็จ 100%

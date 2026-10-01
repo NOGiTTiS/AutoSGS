@@ -235,3 +235,8 @@ Row 2: [Score 2,1]\t[Score 2,2]\t[Score 2,3]\r\n
 - [x] **4.5 จัดทำคู่มือขั้นตอนการ Build และคอมไพล์โปรแกรม (`docs/build_guide.md`)**
   - [x] บันทึกคำสั่ง PyInstaller สำหรับ Windows และ macOS พร้อมคำอธิบายพารามิเตอร์
   - [x] บันทึกการแก้ไขปัญหาที่พบบ่อย (Permission Error, ล็อกไฟล์, Assets & Fonts)
+- [x] **4.6 เผยแพร่โปรเจกต์และ Release บน GitHub ([https://github.com/NOGiTTiS/AutoSGS](https://github.com/NOGiTTiS/AutoSGS))**
+  - [x] จัดทำ `.gitignore` กรองไฟล์ไบนารีและแคช
+  - [x] ส่ง Source Code ขึ้น Branch `main`
+  - [x] แก้ไขการรองรับไอคอน macOS (`assets/icon.icns`) ใน CI/CD
+  - [x] สร้าง Git Tag `v1.0.0` และเผยแพร่ไฟล์โปรแกรมผ่าน GitHub Releases อัตโนมัติ
