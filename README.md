@@ -52,7 +52,9 @@
 
 ## 📖 คู่มือการใช้งาน (Documentation)
 
-- 📘 **[คู่มือการใช้งานสำหรับคุณครู (User Guide)](docs/user_guide.md)**
+- 📘 **[คู่มือการใช้งานสำหรับคุณครู (Markdown User Guide)](docs/user_guide.md)**
+- 📕 **[ดาวน์โหลดคู่มือการใช้งานฉบับสมบูรณ์ (PDF Manual)](docs/AutoSGS_User_Manual.pdf)**
+- 📊 **[ดาวน์โหลดสไลด์นำเสนออบรมการใช้งาน (PowerPoint PPTX Presentation)](docs/AutoSGS_User_Manual.pptx)**
 - 🔨 **[คู่มือขั้นตอนการ Build และคอมไพล์โปรแกรม (Build Guide)](docs/build_guide.md)**
 - 📋 **[เอกสารข้อกำหนดของระบบ (System Specification)](docs/spec.md)**
 - 📐 **[แผนการนำไปปฏิบัติและสถาปัตยกรรม (Implementation Plan)](docs/plan.md)**
