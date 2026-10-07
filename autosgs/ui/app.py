@@ -55,7 +55,7 @@ class AutoSGSApp(ctk.CTk):
         ctk.set_widget_scaling(self.current_scaling)
 
         # Window settings
-        self.title("NOGiTTiS : AutoSGS v1.1.0 - ระบบช่วยพิมพ์คะแนน")
+        self.title("NOGiTTiS : AutoSGS v1.1.1 - ระบบช่วยพิมพ์คะแนน")
         self.geometry(f"{self.WINDOW_WIDTH}x{self.COMPACT_HEIGHT}")
         self.minsize(self.WINDOW_WIDTH, self.COMPACT_HEIGHT)
         self.attributes("-topmost", self.config.always_on_top)
