@@ -23,8 +23,17 @@
 
 | ระบบปฏิบัติการ | ไฟล์ดาวน์โหลด | รูปแบบ | คำแนะนำการใช้งาน |
 | :--- | :--- | :--- | :--- |
-| **Windows 10 / 11** | [📥 **AutoSGS.exe**](https://github.com/NOGiTTiS/AutoSGS/releases/latest) | Standalone Portable (.exe) | ดับเบิลคลิกเปิดใช้งานได้ทันที ไม่ต้องติดตั้ง |
+| **Windows 10 / 11** | [📥 **AutoSGS.exe**](https://github.com/NOGiTTiS/AutoSGS/releases/latest)<br>[📦 **AutoSGS-Windows-Portable.zip**](https://github.com/NOGiTTiS/AutoSGS/releases/latest) | Standalone (.exe)<br>Portable (.zip + ตัวช่วยปลดล็อก) | ดับเบิลคลิกใช้งานได้ทันที (หากติด SmartScreen ดูวิธีปลดล็อกด้านล่าง) |
 | **macOS** | [📥 **AutoSGS-macOS.zip**](https://github.com/NOGiTTiS/AutoSGS/releases/latest) | App Bundle (.zip) | แตกไฟล์ ย้ายเข้า Applications และเปิดสิทธิ์ Accessibility |
+
+> [!TIP]
+> ### 🛡️ วิธีเปิดใช้งานบน Windows เมื่อขึ้นเตือน "Windows protected your PC"
+> เมื่อเปิดไฟล์ `AutoSGS.exe` ครั้งแรก อาจพบหน้าต่างสีฟ้าของ Microsoft Defender SmartScreen (เนื่องจากเป็นฟรีแวร์ Open-Source ที่เพิ่งปล่อยเวอร์ชันใหม่ และไม่มีใบรับรองดิจิทัลเชิงพาณิชย์ที่มีค่าใช้จ่ายรายปีสูง):
+> - **วิธีที่ 1 (แนะนำ - ทำครั้งเดียว):** คลิกที่ **"More info" (ข้อมูลเพิ่มเติม)** $\rightarrow$ แล้วคลิกปุ่ม **"Run anyway" (เรียกใช้ต่อไป)**
+> - **วิธีที่ 2 (ดับเบิลคลิกเดียว):** แตกไฟล์ `AutoSGS-Windows-Portable.zip` แล้วดับเบิลคลิกไฟล์ `Unblock_AutoSGS.bat` สคริปต์จะปลดล็อกและเปิดโปรแกรมให้อัตโนมัติ
+> - **วิธีที่ 3:** คลิกขวาที่ไฟล์ `AutoSGS.exe` $\rightarrow$ Properties $\rightarrow$ ติ๊ก **Unblock (ปลดล็อก)** $\rightarrow$ OK
+> 
+> *ยืนยันความปลอดภัย 100% ตัวโปรแกรมเป็นโอเพนซอร์สทั้งหมด ตรวจสอบโค้ดได้บน GitHub*
 
 ---
 

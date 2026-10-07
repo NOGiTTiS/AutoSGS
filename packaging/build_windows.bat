@@ -10,8 +10,9 @@ if exist dist rmdir /s /q dist
 
 REM Build Single-file Portable Executable with PyInstaller
 pyinstaller --noconfirm --onefile --windowed ^
-    --name="TUNorth - AutoSGS" ^
+    --name="AutoSGS" ^
     --icon="assets/icon.ico" ^
+    --version-file="packaging\version_info.txt" ^
     --add-data="assets/fonts;assets/fonts" ^
     --add-data="assets/icon.ico;assets" ^
     --collect-all="customtkinter" ^
@@ -20,14 +21,20 @@ pyinstaller --noconfirm --onefile --windowed ^
     main.py
 
 if %ERRORLEVEL% EQU 0 (
-    if exist "dist\TUNorth - AutoSGS.exe" (
-        copy /y "dist\TUNorth - AutoSGS.exe" "dist\AutoSGS.exe" > nul
-    )
+    copy /y "dist\AutoSGS.exe" "dist\TUNorth - AutoSGS.exe" > nul
+    copy /y "packaging\Unblock_AutoSGS.bat" "dist\" > nul
+    copy /y "packaging\คำแนะนำการเปิดใช้งาน_SmartScreen.txt" "dist\" > nul
+
+    echo Creating portable ZIP package...
+    powershell -NoProfile -Command "Compress-Archive -Path 'dist\AutoSGS.exe', 'dist\Unblock_AutoSGS.bat', 'dist\คำแนะนำการเปิดใช้งาน_SmartScreen.txt' -DestinationPath 'dist\AutoSGS-Windows-Portable.zip' -Force"
+
     echo.
     echo ========================================================
     echo  [SUCCESS] Executables created successfully:
-    echo    - dist\TUNorth - AutoSGS.exe
     echo    - dist\AutoSGS.exe
+    echo    - dist\TUNorth - AutoSGS.exe
+    echo    - dist\AutoSGS-Windows-Portable.zip
+    echo    - dist\Unblock_AutoSGS.bat
     echo ========================================================
 ) else (
     echo.

@@ -166,4 +166,7 @@ D:\TUNorth\apps\sgs/
   - [x] จัดทำคู่มือขั้นตอนการ Build และคอมไพล์โปรแกรม (Build Guide)
   - [x] ซิงค์ Source Code ขึ้น GitHub Repository (`https://github.com/NOGiTTiS/AutoSGS`) พร้อม `.gitignore`
   - [x] จัดทำไอคอน macOS `assets/icon.icns` รองรับ PyInstaller ข้ามแพลตฟอร์ม
-  - [x] GitHub Actions CI/CD สร้างและเผยแพร่ GitHub Release `v1.0.0` อัตโนมัติสำเร็จ 100%
+  - [x] เพิ่ม Windows Version Resource (`packaging/version_info.txt`) กำหนด CompanyName, ProductVersion, FileDescription
+  - [x] จัดทำสคริปต์ 1 คลิกปลดล็อก Windows SmartScreen (`packaging/Unblock_AutoSGS.bat`) และแพ็กเกจ `AutoSGS-Windows-Portable.zip`
+  - [x] เพิ่มคำแนะนำและแนวทางแก้ไข Microsoft Defender SmartScreen ใน README, คู่มือผู้ใช้ และ GitHub Releases
+  - [x] GitHub Actions CI/CD สร้างและเผยแพร่ GitHub Release `v1.0.0` และ `v1.1.0` อัตโนมัติสำเร็จ 100%

@@ -33,18 +33,26 @@ jobs:
           pyinstaller --noconfirm --onefile --windowed `
             --name="AutoSGS" `
             --icon="assets/icon.ico" `
+            --version-file="packaging/version_info.txt" `
             --add-data="assets/fonts;assets/fonts" `
             --add-data="assets/icon.ico;assets" `
             --collect-all="customtkinter" `
             --hidden-import="pynput.keyboard._win32" `
             --hidden-import="pynput.mouse._win32" `
             main.py
+          
+          Copy-Item -Path "packaging/Unblock_AutoSGS.bat" -Destination "dist/"
+          Copy-Item -Path "packaging/คำแนะนำการเปิดใช้งาน_SmartScreen.txt" -Destination "dist/"
+          Compress-Archive -Path "dist/AutoSGS.exe", "dist/Unblock_AutoSGS.bat", "dist/คำแนะนำการเปิดใช้งาน_SmartScreen.txt" -DestinationPath "dist/AutoSGS-Windows-Portable.zip" -Force
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: AutoSGS-Windows
-          path: dist/AutoSGS.exe
+          path: |
+            dist/AutoSGS.exe
+            dist/AutoSGS-Windows-Portable.zip
+            dist/Unblock_AutoSGS.bat
 
   build-macos:
     name: Build macOS Application
