@@ -170,3 +170,4 @@ D:\TUNorth\apps\sgs/
   - [x] จัดทำสคริปต์ 1 คลิกปลดล็อก Windows SmartScreen (`packaging/Unblock_AutoSGS.bat`) และแพ็กเกจ `AutoSGS-Windows-Portable.zip`
   - [x] เพิ่มคำแนะนำและแนวทางแก้ไข Microsoft Defender SmartScreen ใน README, คู่มือผู้ใช้ และ GitHub Releases
   - [x] GitHub Actions CI/CD สร้างและเผยแพร่ GitHub Release `v1.0.0` และ `v1.1.0` อัตโนมัติสำเร็จ 100%
+  - [x] **v1.1.3 (NewTEA Exact Rows Integration):** รองรับ Directive `# Source: NewTEA | Rows: N` และไม่ตัดแถวว่างท้ายตารางทิ้ง ทำให้ส่งข้อมูลและเลื่อน Tab ข้ามไปยังนักเรียนคนสุดท้ายของห้องได้ครบถ้วน แม้ยังกรอกคะแนนไม่ถึงคนสุดท้าย

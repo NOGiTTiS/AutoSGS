@@ -4,6 +4,7 @@ Parses Tab-Separated Values (TSV) from Excel or Google Sheets into structured Sc
 """
 
 from dataclasses import dataclass, field
+import re
 from typing import List, Optional
 import pyperclip
 
@@ -63,9 +64,30 @@ def parse_tsv(text: Optional[str]) -> ScoreMatrix:
     # Split lines, handling CRLF and LF
     lines = [line for line in text.splitlines()]
 
-    # Filter out empty trailing lines often appended by Excel
-    while lines and not lines[-1].strip():
-        lines.pop()
+    # Filter out any metadata/comment lines starting with '#' so they never become cells
+    # Extract exact row count if specified in directive e.g. '# Source: NewTEA | Rows: 23'
+    exact_row_count: Optional[int] = None
+    data_lines = []
+    for line in lines:
+        if line.startswith("#"):
+            m = re.search(r"rows?:\s*(\d+)", line, re.IGNORECASE)
+            if m:
+                exact_row_count = int(m.group(1))
+            continue
+        data_lines.append(line)
+
+    lines = data_lines
+
+    if exact_row_count is not None:
+        if len(lines) > exact_row_count:
+            lines = lines[:exact_row_count]
+        elif len(lines) < exact_row_count:
+            lines.extend([""] * (exact_row_count - len(lines)))
+    else:
+        # Filter out empty trailing lines (only pop lines that have no content and contain no tabs)
+        # Rows with tabs (e.g. "\t\t\t") represent intentional student rows with columns and are preserved!
+        while lines and not lines[-1].strip() and "\t" not in lines[-1]:
+            lines.pop()
 
     if not lines:
         return ScoreMatrix(raw_text=text)
