@@ -61,7 +61,7 @@
     <div class="mode-nav">
       <button class="mode-btn active" id="nav_scores" onclick="switchMode('scores')">📊 1. ผลการเรียน (3 ช่อง)</button>
       <button class="mode-btn" id="nav_characteristics" onclick="switchMode('characteristics')">⭐ 2. คุณลักษณะอันพึงประสงค์ (8 ช่อง + ข้าม 4 Tab)</button>
-      <button class="mode-btn" id="nav_reading_analysis" onclick="switchMode('reading_analysis')">📖 3. การอ่าน คิดวิเคราะห์ฯ (6 ช่อง + ข้าม 2 Tab)</button>
+      <button class="mode-btn" id="nav_reading_analysis" onclick="switchMode('reading_analysis')">📖 3. การอ่าน คิดวิเคราะห์ฯ (5 ช่อง + ข้าม 3 Tab)</button>
     </div>
 
     <!-- Mode description & Toolbar -->
@@ -130,12 +130,12 @@
       },
       reading_analysis: {
         name: "การอ่าน คิดวิเคราะห์และเขียน",
-        badge: "โหมด: การอ่านฯ (6 ช่อง + ข้าม 2 Tab ⚡ 0.02s)",
-        desc: "📌 <b>โหมดการอ่าน คิดวิเคราะห์และเขียน:</b> 6 ตัวชี้วัดต่อคน (พิมพ์+Tab) + <b>ระบบกด Tab เพิ่มเติมอีก 2 ครั้งท้ายแถว</b> เพื่อข้ามช่องสรุปผล (⚡ <b>ความเร็วสูงสุด 0.02s อัตโนมัติ</b> บันทึกครั้งเดียวท้ายฟอร์ม)",
-        scoreCols: 6,
-        skipCols: 2,
-        headers: ["ข้อ 1", "ข้อ 2", "ข้อ 3", "ข้อ 4", "ข้อ 5", "ข้อ 6"],
-        skipHeaders: ["ผลประเมิน (ข้าม 1)", "ระดับ (ข้าม 2)"],
+        badge: "โหมด: การอ่านฯ (5 ช่อง + ข้าม 3 Tab ⚡ 0.02s)",
+        desc: "📌 <b>โหมดการอ่าน คิดวิเคราะห์และเขียน:</b> 5 ตัวชี้วัดต่อคน (พิมพ์+Tab) + <b>ระบบกด Tab เพิ่มเติมอีก 3 ครั้งท้ายแถว</b> เพื่อข้ามช่องสรุปผล (⚡ <b>ความเร็วสูงสุด 0.02s อัตโนมัติ</b> บันทึกครั้งเดียวท้ายฟอร์ม)",
+        scoreCols: 5,
+        skipCols: 3,
+        headers: ["ข้อ 1", "ข้อ 2", "ข้อ 3", "ข้อ 4", "ข้อ 5"],
+        skipHeaders: ["ผลประเมิน (ข้าม 1)", "ระดับ (ข้าม 2)", "แก้ไข (ข้าม 3)"],
       }
     };
 
@@ -263,10 +263,10 @@
           tsv += rowScores.join("\t") + "\r\n";
         }
       } else if (currentMode === "reading_analysis") {
-        // 6 columns, scores 2 or 3
+        // 5 columns, scores 2 or 3
         for (let i = 0; i < 40; i++) {
           const rowScores = [];
-          for (let c = 0; c < 6; c++) {
+          for (let c = 0; c < 5; c++) {
             rowScores.push((i + c) % 4 === 0 ? "2" : "3");
           }
           tsv += rowScores.join("\t") + "\r\n";
@@ -299,7 +299,7 @@
       } else if (currentMode === "reading_analysis") {
         for (let i = 0; i < 40; i++) {
           const rowScores = [];
-          for (let c = 0; c < 6; c++) {
+          for (let c = 0; c < 5; c++) {
             if ((i === 7 || i === 22) && c >= 1 && c <= 3) {
               rowScores.push(""); // Absent student
             } else {

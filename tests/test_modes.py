@@ -44,8 +44,8 @@ def test_mode_specs_structure():
 
     # 3. Reading, analysis and writing mode
     assert MODE_SPECS["reading_analysis"]["label"] == "การอ่าน คิดวิเคราะห์และเขียน"
-    assert MODE_SPECS["reading_analysis"]["expected_cols"] == 6
-    assert MODE_SPECS["reading_analysis"]["extra_row_end_tabs"] == 2
+    assert MODE_SPECS["reading_analysis"]["expected_cols"] == 5
+    assert MODE_SPECS["reading_analysis"]["extra_row_end_tabs"] == 3
     assert MODE_SPECS["reading_analysis"]["show_save_reminder"] is True
     assert "บันทึก" in MODE_SPECS["reading_analysis"]["reminder_message"]
 
@@ -142,21 +142,21 @@ def test_mode_2_characteristics_keystroke_sequence():
 def test_mode_3_reading_analysis_keystroke_sequence():
     """
     Mode 3: Reading, Analytical Thinking & Writing (การอ่าน คิดวิเคราะห์และเขียน)
-    6 columns + 2 extra tabs = 1 student.
-    2 students x 6 columns = 12 cells.
-    Each cell: score + 1 Tab (12 Tabs).
-    Row end: 2 extra Tabs per student (2 * 2 = 4 extra Tabs).
+    5 columns + 3 extra tabs = 1 student.
+    2 students x 5 columns = 10 cells.
+    Each cell: score + 1 Tab (10 Tabs).
+    Row end: 3 extra Tabs per student (2 * 3 = 6 extra Tabs).
     Total tabs: 16 Tabs.
     """
     mock_kb = MockKeyboard()
     engine = TyperEngine(keyboard_controller=mock_kb)
 
-    row1 = ["3", "3", "3", "3", "3", "3"]
-    row2 = ["3", "2", "3", "3", "2", "3"]
+    row1 = ["3", "3", "3", "3", "3"]
+    row2 = ["3", "2", "3", "3", "2"]
     matrix = ScoreMatrix(
         total_rows=2,
-        total_columns=6,
-        total_cells=12,
+        total_columns=5,
+        total_cells=10,
         empty_cells_count=0,
         rows=[row1, row2],
     )
@@ -170,17 +170,22 @@ def test_mode_3_reading_analysis_keystroke_sequence():
     assert started is True
     engine._thread.join(timeout=2.0)
 
-    # Count tabs: 12 cell tabs + 4 extra tabs = 16
+    # Count tabs: 10 cell tabs + 6 extra tabs = 16
     tab_presses = [e for e in mock_kb.events if e == ("press", Key.tab)]
     assert len(tab_presses) == 16
 
-    # Row 1 events: 6 cells * 3 = 18 events, plus 2 extra tabs * 2 = 4 events -> total 22
-    row1_events = mock_kb.events[:22]
-    # Extra tabs at row 1 end:
-    assert row1_events[18] == ("press", Key.tab)
-    assert row1_events[19] == ("release", Key.tab)
-    assert row1_events[20] == ("press", Key.tab)
-    assert row1_events[21] == ("release", Key.tab)
+    # Row 1 events: 5 cells * 3 = 15 events, plus 3 extra tabs * 2 = 6 events -> total 21
+    row1_events = mock_kb.events[:21]
+    # 5 cell keystrokes
+    for c in range(5):
+        assert row1_events[c * 3] == ("type", "3")
+        assert row1_events[c * 3 + 1] == ("press", Key.tab)
+        assert row1_events[c * 3 + 2] == ("release", Key.tab)
+
+    # 3 Extra tabs at row 1 end:
+    for t in range(3):
+        assert row1_events[15 + t * 2] == ("press", Key.tab)
+        assert row1_events[15 + t * 2 + 1] == ("release", Key.tab)
 
 
 def test_mode_with_blank_cells():
@@ -188,12 +193,12 @@ def test_mode_with_blank_cells():
     mock_kb = MockKeyboard()
     engine = TyperEngine(keyboard_controller=mock_kb)
 
-    # 1 row, 6 columns, with blank cell at index 2
-    row = ["3", "3", "", "3", "3", "3"]
+    # 1 row, 5 columns, with blank cell at index 2
+    row = ["3", "3", "", "3", "3"]
     matrix = ScoreMatrix(
         total_rows=1,
-        total_columns=6,
-        total_cells=6,
+        total_columns=5,
+        total_cells=5,
         empty_cells_count=1,
         rows=[row],
     )
@@ -202,18 +207,18 @@ def test_mode_with_blank_cells():
         matrix=matrix,
         delay=0.001,
         countdown=0,
-        extra_row_end_tabs=2,
+        extra_row_end_tabs=3,
     )
     assert started is True
     engine._thread.join(timeout=2.0)
 
-    # Total tabs: 6 cell tabs + 2 extra tabs = 8
+    # Total tabs: 5 cell tabs + 3 extra tabs = 8
     tab_presses = [e for e in mock_kb.events if e == ("press", Key.tab)]
     assert len(tab_presses) == 8
 
-    # Typed scores: only 5 (one was blank)
+    # Typed scores: only 4 (one was blank)
     actual_types = [e[1] for e in mock_kb.events if e[0] == "type"]
-    assert actual_types == ["3", "3", "3", "3", "3"]
+    assert actual_types == ["3", "3", "3", "3"]
 
 
 def test_mode_maximum_speed_execution():
