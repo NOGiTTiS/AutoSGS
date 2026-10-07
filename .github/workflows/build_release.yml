@@ -44,6 +44,7 @@ jobs:
           Copy-Item -Path "packaging/Unblock_AutoSGS.bat" -Destination "dist/"
           Copy-Item -Path "packaging/คำแนะนำการเปิดใช้งาน_SmartScreen.txt" -Destination "dist/"
           Compress-Archive -Path "dist/AutoSGS.exe", "dist/Unblock_AutoSGS.bat", "dist/คำแนะนำการเปิดใช้งาน_SmartScreen.txt" -DestinationPath "dist/AutoSGS-Windows-Portable.zip" -Force
+          Get-ChildItem dist | Select-Object Name, Length
 
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v4
